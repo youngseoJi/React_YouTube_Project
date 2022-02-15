@@ -7,8 +7,8 @@ import VideoList from "./components/video_list/video_list";
 // 컴포넌트가 마운트(사용자에세 보여질때)가 되었을때 유튜브로 부터 데이터를 받아오는 부분 작성
 function App() {
   const [videos, setVideos] = useState([]);
-  // 컴포넌트가 마운트가 되었거나 업데이트 될때마다 호출되는 함수  useEffect
 
+  // 컴포넌트가 마운트가 되었거나 업데이트 될때마다 호출되는 함수  useEffect
   useEffect(() => {
     const requestOptions = {
       method: "GET",
