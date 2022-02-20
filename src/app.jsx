@@ -6,29 +6,24 @@ import VideoList from "./components/video_list/video_list";
 import SearchHeader from "./components/search_header/search_header";
 
 // 컴포넌트가 마운트(사용자에세 보여질때)가 되었을때 유튜브로 부터 데이터를 받아오는 부분 작성
-function App() {
+function App({ youtube }) {
   const [videos, setVideos] = useState([]);
-
+  const search = (query) => {
+    youtube
+      .search(query) //
+      .then((videos) => setVideos(videos));
+  };
   // 컴포넌트가 마운트가 되었거나 업데이트 될때마다 호출되는 함수  useEffect
   useEffect(() => {
-    const requestOptions = {
-      method: "GET",
-      redirect: "follow",
-    };
-
-    fetch(
-      "https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=25&key=AIzaSyAtrSZkopq--QXlpEYQ5SrM9Kg5TZlZMl0",
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => setVideos(result.items))
-      .catch((error) => console.log("error", error));
+    youtube
+      .mostPopular() //
+      .then((videos) => setVideos(videos));
   }, []);
   // 두번째 인자 특정조건일때만 함수가 호출되게 하기 위해 설정하는 인자!
   // 맨 처음 마운트 되었을 때 한번만 호출하기 위해서 [] 일때만 함수호출하도록 조건을 정한것
   return (
     <div className={styles.app}>
-      <SearchHeader />
+      <SearchHeader onSearch={search} />
       <VideoList videos={videos} />
     </div>
   );
