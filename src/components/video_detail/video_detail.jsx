@@ -6,6 +6,7 @@ const VideoDetail = ({ video, video: { snippet } }) => (
     <iframe
       className={styles.video}
       type="text/html"
+      title="youtube video player"
       width="100%"
       height="500px"
       src={`https://www.youtube.com/embed/${video.id}`}

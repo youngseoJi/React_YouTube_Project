@@ -1,23 +1,33 @@
-// 리액트느 순수 vue 보여지는 것을 만드는 것이기에,
-// 컴포넌트는 다른 것 네트워크 통신같은 기능을 있으면 최악! 테스트 할때마다 통신이 일어난다.
-// 이렇게 따로 빼서 구성하기!
+// import axios from "axios";
 
 class Youtube {
-  constructor(key) {
-    this.key = key;
-    this.getRequestOptions = {
-      method: "GET",
-      redirect: "follow",
-    };
+  constructor(httpClient) {
+    this.youtube = httpClient;
   }
-  // mostPopular 함수를 호출하면 (fetch) 네트워크 통신을 해서 받아온 데이터를  items로 변환하여 리턴하는 API 생성
+  // constructor(key) {
+  //   // 유튜브와 통신하는 베이스 유튜브 클라이언트 생성
+  //   this.youtube = axios.create({
+  //     baseURL: "https://www.googleapis.com/youtube/v3",
+  //     params: { key: key },
+  //   });
+  // }
+  // json으로 자동으로 변환해줌, 예전 브라우저에서도 호환이되다.
   async mostPopular() {
-    const res = await fetch(
-      `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=25&key=${this.key}`,
-      this.getRequestOptions
-    );
-    const data = await res.json();
-    return data.items;
+    const res = await this.youtube.get("videos", {
+      params: {
+        part: "snippet",
+        chart: "mostPopular",
+        maxResults: 25,
+      },
+    });
+    return res.data.items;
+    //  fetch는 json으로 변환해줘야한다. or prams를 url로 따로해야하서 가독성 떨어짐
+    // const res = await fetch(
+    //   `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=25&key=${this.key}`,
+    //   this.getRequestOptions
+    // );
+    // const data = await res.json();
+    // return data.items;
   }
 
   async search(query) {

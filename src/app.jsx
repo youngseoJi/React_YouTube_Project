@@ -1,6 +1,6 @@
 // 협업하는 경우 검색부분, 페이지 목록보는 부분 등 각자 컴포넌트를 맡아 개발한다.
 //  혼자할 프로젝트 개발할 경우 단계별로 작은 단위의 대표적인 기능을 만든 후 -> 확장해나가며 다른 기능들을 추가해나간다.
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "./app.module.css";
 import VideoList from "./components/video_list/video_list";
 import SearchHeader from "./components/search_header/search_header";
@@ -19,21 +19,24 @@ function App({ youtube }) {
   const selectVideo = (video) => {
     setSelectedVideo(video);
   };
+  //  useCallback : 리랜더링되지 않도록!
+  // 주의 : 메모리상에 항상 저장되어있기때문에 조심해서 사용
+  const search = useCallback(
+    (query) => {
+      setSelectedVideo(null);
+      // 처음엔 항상 초기화 시키기 - 기본브라우저화면
 
-  const search = (query) => {
-    // 처음엔 항상 초기화 시키기 - 기본브라우저화면
-    setSelectedVideo(null);
+      youtube.search(query).then((videos) => setVideos(videos));
+    },
+    [youtube]
+  );
 
-    youtube.search(query).then((videos) => {
-      setVideos(videos);
-    });
-  };
   // 컴포넌트가 마운트가 되었거나 업데이트 될때마다 호출되는 함수  useEffect
   useEffect(() => {
     youtube
       .mostPopular() //
       .then((videos) => setVideos(videos));
-  }, []);
+  }, [youtube]);
   // 두번째 인자 특정조건일때만 함수가 호출되게 하기 위해 설정하는 인자!
   // 맨 처음 마운트 되었을 때 한번만 호출하기 위해서 [] 일때만 함수호출하도록 조건을 정한것
 

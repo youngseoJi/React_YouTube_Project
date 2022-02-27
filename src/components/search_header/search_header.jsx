@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
+import React, { memo, useRef } from "react";
 import styles from "./search_header.module.css";
 
 //! 검색 기능(컴포넌트) 구현
-const SearchHeader = ({ onSearch }) => {
+const SearchHeader = memo(({ onSearch }) => {
   // javascript에서 특정 Dom을 선택하는 역할
   // useRef(); 사용하여 검색한 값을 저장한다.
   const inputRef = useRef();
@@ -49,6 +49,5 @@ const SearchHeader = ({ onSearch }) => {
       </button>
     </header>
   );
-};
-
+});
 export default SearchHeader;
