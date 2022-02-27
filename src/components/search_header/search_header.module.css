@@ -5,6 +5,7 @@
   background: black;
   color: white;
 }
+
 .logo {
   display: flex;
   align-items: center;
@@ -18,11 +19,11 @@
 }
 
 .button {
-  background-color: darkgray;
+  background-color: darkgrey;
   outline: 0;
 }
 
-.buttonLogo {
+.buttonImg {
   height: 100%;
   padding: 0.5em 0.2em;
 }
